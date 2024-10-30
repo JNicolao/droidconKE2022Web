@@ -52,6 +52,23 @@ function SponsorsList({
     [isDarkTheme]
   )
 
+  const givenOrder: string[] = [
+    'platinum',
+    'gold',
+    'silver',
+    'bronze',
+    'startup',
+    'swag',
+    'venue',
+  ]
+
+  const sortedSponsors = sponsors.sort((a, b) => {
+    return (
+      givenOrder.indexOf(givenOrder.find((g) => a.sponsor_type === g) || '') -
+      givenOrder.indexOf(givenOrder.find((g) => b.sponsor_type === g) || '')
+    )
+  })
+
   return (
     <section className="w-full dark:bg-black">
       <div className="s-container">
@@ -122,7 +139,7 @@ function SponsorsList({
 
             {showSponsors && (
               <div className="grid grid-cols-2 md:grid-cols-3 border-t">
-                {sponsors
+                {sortedSponsors
                   .filter((s) => s.sponsor_type !== 'platinum')
                   .map((sponsor) => (
                     <div
