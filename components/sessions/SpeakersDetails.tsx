@@ -15,14 +15,10 @@ export const SpeakersDetails = ({ session }: { session: Session }) => {
     return null
   }
 
-  const getTwitterUsername = (url: string) => {
-    if (url.includes('twitter.com/')) {
-      return url.split('twitter.com/')[1]
-    }
-    if (url.includes('x.com/')) {
-      return url.split('x.com/')[1]
-    }
-    return null
+  const getTwitterUsername = (url: string): string | null => {
+    if (!url) return null
+    const match = url.match(/(?:twitter\.com|x\.com)\/([^/?#]+)/i)
+    return match?.[1] ?? null
   }
 
   return (
@@ -73,9 +69,8 @@ export const SpeakersDetails = ({ session }: { session: Session }) => {
                         className="text-primary dark:text-accent text-sm lowercase font-medium"
                       >
                         @
-                        {speaker.twitter
-                          ? getTwitterUsername(speaker.twitter)
-                          : speaker.name}
+                        {getTwitterUsername(speaker.twitter ?? '') ||
+                          speaker.name}
                       </a>
                     </a>
                   </p>
